@@ -1,68 +1,80 @@
-# Бэкэнд для проекта [Место Russia Auth](https://github.com/v1ktorbro/react-mesto-auth)
+# Бэк для проекта [Mesto-auth](https://github.com/v1ktorbro/mesto-auth)
+**[ Base URL: mesto-auth.abrosimov.site/api ]**
 
-* **Репозиторий React приложения, использующее этот API [тут](https://github.com/v1ktorbro/react-mesto-auth)**;
+## Инструменты :
 
-* **Приложение использующее этот API и размещенное на Яндекс.Облаке [тут](https://v1ktorbro.students.nomoreparties.co/)**;
+**EXPRESS, MONGO, NGINX, UBUNTU, POSTMAN.**
+## Руты:
 
-## Используемый стэк :
+### Публичные:
 
-**express.js, MongoDB, API REST, Yandex.Cloud**
+* Авторизоваться
 
-## Публичные маршруты  
-1. /signup регистрация пользователя в базе. 
-POST запрос, в теле которого должно быть 2 поля: email и password;
-2. /signin авторизация юзера.
-POST запрос, в теле которого должно быть 2 поля: email и password.
+      POST /signin/{BODY}
+      _____________________
+      {BODY} = email, password
 
-### Запросы
+* Зарегистрироваться
 
-Сервер принимает запросы по поддоменному имени *api.v1ktorbro.students.nomoreparties.co*
+      POST /signup/{BODY}
+      _____________________
+      {BODY} = email, password
 
-* **_http_ [v1ktorbro.students.nomoreparties.co](http://api.v1ktorbro.students.nomoreparties.co/users)**
-* **_https_ [v1ktorbro.students.nomoreparties.co](https://api.v1ktorbro.students.nomoreparties.co/users)**
+### Приватные:
+*P.S. Доступны только после авторизации и получении JWT*
 
-* **Публчиный IPv4 130.193.58.31**
+#### /cards
+* Получить все карточки
 
-**_для карточек_**
+      GET /cards
 
-      REST      |      Route         |         BODY          |  Result
-                |                    |                       | 
-      GET       |      '/cards'      |                       | список всех карточек;
-      POST      |      '/cards'      |      name, link       | создать карточку;
-      DELETE    |     '/cards/:id'   |                       | удалить карточку;
-      PUT       | '/cards/:id/likes' |                       | поставить лойс карточке;
-      DELETE    | '/cards/:id/likes' |                       | удалить лойс у карточки.
+* Создать карточку
 
+      POST /cards/{BODY}
+      _____________________
+      {BODY} = name, link
 
-**_для юзеров_**
+* Удалить карточку
 
-      REST      |      Route         |         BODY          |  Result
-                |                    |                       |
-      GET       |    '/users'        |                       |  список всех пользователей;
-      GET       |    '/users/:id'    |                       |  посмотреть данные пользователя с id...;
-      PATCH     |    '/users/me'     |      name, about      |  отредактировать информацию полей: имя, о себе;
-      PATCH     |  '/users/avatar'   |      link             |  изменить аватар пользователя.
-      
+      DELETE /cards/:id
 
+* Поставить лайк карточке
 
-### Структура проекта
+      PUT /cards/:id/likes
 
-        controllers/     | обработчики карточек и юзеров;
-        errors/          | конструкторы ошибок со статусами 400, 401, 404, 409;
-        middlewares/     | логгеры запросов и аунтефикация пользователя;
-        models/          | схема модели карточки и юзера;
-        routes/          | маршруты;
-        .env             | генерация токена и его хранение в переменной окружения;
-        error.log/       | логи ошибок;
-        request.log      | логи запросов.
+* Удалить лайк у карточки
 
-#### Немного о проекте
+      DELETE /cards/:id/likes
 
-Руты карточек и пользователей защищены авторизацией. 
-Авторизация заключается в сохранении JWT токена в куках браузера и защитой его сгенерированным модулем [crypto](https://www.npmjs.com/package/crypto-js) 32байтным ключем шифрования, который хранится в переменной окружения в файле [.env](https://www.npmjs.com/package/dotenv)
+#### /users
 
-### Авторы
+* Получить список всех пользователей
 
-* **Яндекс.Практикум** *гуру и наставник* - [Yandex.Practikum](https://praktikum.yandex.ru);
+      GET /users
 
-* **Виктор Абросимов** *писарь* - [linkedin](https://www.linkedin.com/in/victor-abrosimov-631b6b1a4/).
+* Получить данные конкретного пользователя с :id
+
+      GET /users/:id
+
+* Изменить информацию о аунтифицированном пользователе
+
+      PATCH /users/me/{BODY}
+      ______________________
+      {BODY} = name, about
+
+* Изменить аватар аунтифицированного пользователя
+
+      PATCH /users/avatar/{BODY}
+      ______________________
+      {BODY} = link
+
+### Структура проекта:
+    controllers/     | обработчики карточек и юзеров;
+    errors/          | конструкторы ошибок со статусами;
+    middlewares/     | логгеры запросов и аунтефикация пользователя;
+    models/          | схема модели карточки и юзера;
+    routes/          | маршруты;
+    logs/            | логи ошибок и запросов;
+    .env             | генерация токена и его хранение в переменной окружения.
+
+*[Репозиторий фронта](https://github.com/v1ktorbro/mesto-auth)*
