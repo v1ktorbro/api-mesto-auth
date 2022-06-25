@@ -10,7 +10,6 @@ router.get('/', getAllCards);
 router.post('/', celebrate({
   body: Joi.object({
     name: Joi.string().min(2).max(30).required(),
-    // eslint-disable-next-line no-useless-escape
     link: Joi.string().regex(/^(https?:\/{2})?([\da-zа-я\.-]+)\.([\S]{2,})([\/\w \.-]*)*\/?$/).required(),
   }),
 }), createCard);
